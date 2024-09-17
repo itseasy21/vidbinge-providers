@@ -3,7 +3,7 @@ import { SourcererOutput, makeSourcerer } from '@/providers/base';
 import { MovieScrapeContext, ShowScrapeContext } from '@/utils/context';
 import { NotFoundError } from '@/utils/errors';
 
-export const baseUrl = 'https://simple-proxy.pocketory-com.workers.dev/?destination=https://api.whvx.net';
+export const baseUrl = 'https://vidbinge-cors-ae40c771a7e6.herokuapp.com/https://api.whvx.net';
 
 export const headers = {
   Origin: 'https://www.vidbinge.com',

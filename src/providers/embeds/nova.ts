@@ -1,5 +1,5 @@
 import { EmbedOutput, makeEmbed } from '@/providers/base';
-import { baseUrl } from '@/providers/sources/whvx';
+import { baseUrl, headers } from '@/providers/sources/whvx';
 import { NotFoundError } from '@/utils/errors';
 
 export const novaScraper = makeEmbed({
@@ -17,11 +17,15 @@ export const novaScraper = makeEmbed({
     }, 100);
 
     try {
-      const search = await ctx.fetcher(`${baseUrl}/search?query=${encodeURIComponent(ctx.url)}`);
+      const search = await ctx.fetcher(`${baseUrl}/search?query=${encodeURIComponent(ctx.url)}`, {
+        headers,
+      });
       if (search.statusCode === 404) {
         throw new Error('No files found');
       }
-      const result = await ctx.fetcher(`${baseUrl}/source?resourceId=${encodeURIComponent(search.url)}`);
+      const result = await ctx.fetcher(`${baseUrl}/source?resourceId=${encodeURIComponent(search.url)}`, {
+        headers,
+      });
       if (result.statusCode === 404) {
         throw new Error('No streams found');
       }

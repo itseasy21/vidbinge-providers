@@ -17,8 +17,8 @@ export const gomoviesBase = `https://gomovies.sx`;
 export const goMoviesScraper = makeSourcerer({
   id: 'gomovies',
   name: 'GOmovies',
-  rank: 60,
-  disabled: true,
+  rank: 80,
+  disabled: false,
   flags: [flags.CORS_ALLOWED],
   async scrapeShow(ctx) {
     const search = await ctx.proxiedFetcher(`/search/${ctx.media.title.replaceAll(/[^a-z0-9A-Z]/g, '-')}`, {

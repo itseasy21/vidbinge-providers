@@ -50,7 +50,7 @@ export const whvxScraper = makeSourcerer({
   id: 'whvx',
   name: 'WHVX',
   rank: 160,
-  flags: [flags.CORS_ALLOWED, flags.CF_BLOCKED],
+  flags: [flags.CORS_ALLOWED],
   disabled: false,
   scrapeMovie: comboScraper,
   scrapeShow: comboScraper,

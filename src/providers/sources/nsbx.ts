@@ -3,7 +3,7 @@ import { SourcererOutput, makeSourcerer } from '@/providers/base';
 import { MovieScrapeContext, ShowScrapeContext } from '@/utils/context';
 import { NotFoundError } from '@/utils/errors';
 
-export const baseUrl = 'https://vidbinge-cors-ae40c771a7e6.herokuapp.com/https://nsbx.wafflehacker.io';
+export const baseUrl = 'https://whvx-proxy.vercel.app/api/nsbx';
 
 export const headers = {
   Origin: 'https://www.vidbinge.com',
@@ -48,7 +48,7 @@ export const nsbxScraper = makeSourcerer({
   id: 'nsbx',
   name: 'NSBX',
   rank: 150,
-  flags: [flags.CORS_ALLOWED, flags.CF_BLOCKED],
+  flags: [flags.CORS_ALLOWED],
   disabled: false,
   scrapeMovie: comboScraper,
   scrapeShow: comboScraper,

@@ -3,11 +3,20 @@ import { SourcererOutput, makeSourcerer } from '@/providers/base';
 import { MovieScrapeContext, ShowScrapeContext } from '@/utils/context';
 import { NotFoundError } from '@/utils/errors';
 
-export const baseUrl = 'https://whvx-proxy.vercel.app/api/whvx';
+export const baseUrl = 'https://fbox-anywhere-457e019579ad.herokuapp.com/https://api.whvx.net';
 
 export const headers = {
   Origin: 'https://www.vidbinge.com',
   Referer: 'https://www.vidbinge.com',
+  'User-Agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+  Accept: 'application/json, text/plain, */*',
+  'Accept-Language': 'en-US,en;q=0.9',
+  'Accept-Encoding': 'gzip, deflate, br',
+  'Content-Type': 'application/json',
+  Connection: 'keep-alive',
+  Pragma: 'no-cache',
+  'Cache-Control': 'no-cache',
 };
 
 async function comboScraper(ctx: ShowScrapeContext | MovieScrapeContext): Promise<SourcererOutput> {
@@ -50,7 +59,7 @@ export const whvxScraper = makeSourcerer({
   id: 'whvx',
   name: 'WHVX',
   rank: 160,
-  flags: [flags.CORS_ALLOWED],
+  flags: [flags.CORS_ALLOWED, flags.IP_LOCKED],
   disabled: false,
   scrapeMovie: comboScraper,
   scrapeShow: comboScraper,

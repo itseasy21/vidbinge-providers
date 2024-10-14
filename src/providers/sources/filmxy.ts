@@ -29,7 +29,7 @@ async function comboScraper(ctx: ShowScrapeContext | MovieScrapeContext): Promis
 export const filmxyScraper = makeSourcerer({
   id: 'filmxy',
   name: 'Filmxy',
-  rank: 145,
+  rank: 170,
   disabled: false,
   flags: [flags.CORS_ALLOWED],
   scrapeShow: comboScraper,

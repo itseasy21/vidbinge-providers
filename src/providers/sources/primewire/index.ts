@@ -39,9 +39,6 @@ async function getStreams(title: string) {
       const sourceName = element.parent().parent().parent().find('.version-host').text().trim();
       let embedId;
       switch (sourceName) {
-        case 'voe.sx':
-          embedId = 'voe';
-          break;
         case 'upstream.to':
           embedId = 'upstream';
           break;
@@ -53,6 +50,9 @@ async function getStreams(title: string) {
           break;
         case 'vidmoly.me':
           embedId = 'vidmoly';
+          break;
+        case 'dood.watch':
+          embedId = 'dood';
           break;
         default:
           embedId = null;

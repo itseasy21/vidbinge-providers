@@ -1,4 +1,5 @@
 import { Embed, Sourcerer } from '@/providers/base';
+import { doodScraper } from '@/providers/embeds/dood';
 import { droploadScraper } from '@/providers/embeds/dropload';
 import { febboxHlsScraper } from '@/providers/embeds/febbox/hls';
 import { febboxMp4Scraper } from '@/providers/embeds/febbox/mp4';
@@ -11,6 +12,7 @@ import { upcloudScraper } from '@/providers/embeds/upcloud';
 import { upstreamScraper } from '@/providers/embeds/upstream';
 import { vidsrcembedScraper } from '@/providers/embeds/vidsrc';
 import { vTubeScraper } from '@/providers/embeds/vtube';
+import { twoEmbedScraper } from '@/providers/sources/2embed';
 import { filmxyScraper } from '@/providers/sources/filmxy';
 import { flixhqScraper } from '@/providers/sources/flixhq/index';
 import { goMoviesScraper } from '@/providers/sources/gomovies/index';
@@ -101,6 +103,7 @@ export function gatherAllSources(): Array<Sourcerer> {
     autoembedScraper,
     moviplusScraper,
     filmxyScraper,
+    twoEmbedScraper,
   ];
 }
 
@@ -149,5 +152,6 @@ export function gatherAllEmbeds(): Array<Embed> {
     autoembedTeluguScraper,
     vidkerScraper,
     streamwishScraper,
+    doodScraper,
   ];
 }

@@ -2,6 +2,25 @@ import { Caption, labelToLanguageCode, removeDuplicatedLanguages } from '@/provi
 import { IndividualEmbedRunnerOptions } from '@/runners/individualRunner';
 import { ProviderRunnerOptions } from '@/runners/runner';
 
+function fixJson(jsonStr: string): string {
+  let lastIndex = Math.max(jsonStr.lastIndexOf('}'), jsonStr.lastIndexOf(']'));
+
+  // Continue trimming and testing until valid JSON is found
+  while (lastIndex > -1) {
+    try {
+      const testJson = jsonStr.substring(0, lastIndex + 1);
+      JSON.parse(testJson); // Test if the JSON is valid
+      return testJson; // If valid, return the fixed JSON
+    } catch (e) {
+      // Move the last index back and keep trimming
+      lastIndex = Math.max(jsonStr.lastIndexOf('}', lastIndex - 1), jsonStr.lastIndexOf(']', lastIndex - 1));
+    }
+  }
+
+  // As a last resort, return an empty array if no valid JSON could be extracted
+  return '[]';
+}
+
 export async function addOpenSubtitlesCaptions(
   captions: Caption[],
   ops: ProviderRunnerOptions | IndividualEmbedRunnerOptions,
@@ -12,38 +31,39 @@ export async function addOpenSubtitlesCaptions(
       .split('.')
       .map((x, i) => (i === 0 ? x : Number(x) || null));
     if (!imdbId) return captions;
-    const Res: {
-      LanguageName: string;
-      SubDownloadLink: string;
-      SubFormat: 'srt' | 'vtt';
-    }[] = await ops.proxiedFetcher(
-      `https://rest.opensubtitles.org/search/${
-        season && episode ? `episode-${episode}/` : ''
-      }imdbid-${(imdbId as string).slice(2)}${season && episode ? `/season-${season}` : ''}`,
-      {
-        headers: {
-          'X-User-Agent': 'VLSub 0.10.2',
-        },
-      },
-    );
+    // Ensure imdbId is treated as a string and slice it properly
+    const apiUrl = `https://osproxy.whvx.net/subs?imdbId=${String(imdbId)}${
+      season && episode ? `&season=${season}&episode=${episode}` : ''
+    }`;
 
-    const openSubtilesCaptions: Caption[] = [];
+    const rawResponse = await ops.proxiedFetcher(apiUrl, {
+      headers: {
+        'X-User-Agent': 'VLSub 0.10.2',
+      },
+    });
+
+    // Try to fix the JSON if needed
+    const jsonResponse = fixJson(typeof rawResponse === 'string' ? rawResponse : JSON.stringify(rawResponse));
+    const Res = JSON.parse(jsonResponse);
+
+    const openSubtitlesCaptions: Caption[] = [];
     for (const caption of Res) {
+      // Retain the original SubDownloadLink, just adjust encoding in the link
       const url = caption.SubDownloadLink.replace('.gz', '').replace('download/', 'download/subencoding-utf8/');
       const language = labelToLanguageCode(caption.LanguageName);
       if (!url || !language) continue;
-      else
-        openSubtilesCaptions.push({
-          id: url,
-          opensubtitles: true,
-          url,
-          type: caption.SubFormat || 'srt',
-          hasCorsRestrictions: false,
-          language,
-        });
+      openSubtitlesCaptions.push({
+        id: url,
+        opensubtitles: true,
+        url,
+        type: caption.SubFormat || 'srt',
+        hasCorsRestrictions: false,
+        language,
+      });
     }
-    return [...captions, ...removeDuplicatedLanguages(openSubtilesCaptions)];
-  } catch {
+    return [...captions, ...removeDuplicatedLanguages(openSubtitlesCaptions)];
+  } catch (e) {
+    console.error('Error processing OpenSubtitles captions:', e);
     return captions;
   }
 }

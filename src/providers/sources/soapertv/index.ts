@@ -60,7 +60,15 @@ const universalScraper = async (ctx: MovieScrapeContext | ShowScrapeContext): Pr
   });
 
   const streamResJson: InfoResponse = JSON.parse(streamRes);
-  const ProxiedPlaylistUrl = `https://m3u8.wafflehacker.io/m3u8-proxy?url=${encodeURIComponent(`${baseUrl}${streamResJson.val}`)}`;
+  const playlistUrl = `${baseUrl}${streamResJson.val}`;
+  const backupPlaylistUrl = `${baseUrl}${streamResJson.val_bak}`;
+  const backupPlayRes = await ctx.proxiedFetcher(backupPlaylistUrl, { headers: { referer: `${baseUrl}${showLink}` } });
+  const playlistRes = await ctx.proxiedFetcher(playlistUrl, { headers: { referer: `${baseUrl}${showLink}` } });
+  const base64Encoded = btoa(unescape(encodeURIComponent(playlistRes)));
+  const backupBase64Encoded = btoa(unescape(encodeURIComponent(backupPlayRes)));
+  const finalPlaylistUrl = `data:application/vnd.apple.mpegurl;base64,${base64Encoded}`;
+  const finalBackupPlaylistUrl = `data:application/vnd.apple.mpegurl;base64,${backupBase64Encoded}`;
+
   const captions: Caption[] = [];
   if (Array.isArray(streamResJson.subs)) {
     // Check if streamResJson.subs is an array
@@ -93,7 +101,7 @@ const universalScraper = async (ctx: MovieScrapeContext | ShowScrapeContext): Pr
     stream: [
       {
         id: 'primary',
-        playlist: ProxiedPlaylistUrl,
+        playlist: finalPlaylistUrl,
         type: 'hls',
         flags: [flags.CORS_ALLOWED],
         captions: noDupes,
@@ -102,7 +110,7 @@ const universalScraper = async (ctx: MovieScrapeContext | ShowScrapeContext): Pr
         ? [
             {
               id: 'backup',
-              playlist: `https://m3u8.wafflehacker.io/m3u8-proxy?url=${encodeURIComponent(`${baseUrl}${streamResJson.val_bak}`)}`,
+              playlist: finalBackupPlaylistUrl,
               type: 'hls' as const,
               flags: [flags.CORS_ALLOWED],
               captions: noDupes,

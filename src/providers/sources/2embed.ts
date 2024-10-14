@@ -10,8 +10,8 @@ async function comboScraper(ctx: ShowScrapeContext | MovieScrapeContext): Promis
     ctx.progress(progress);
   }, 100);
 
-  let url = `https://insertunit.wafflehacker.io/scrape${ctx.media.imdbId}`;
-  if (ctx.media.type === 'show') url += `/${ctx.media.season.number}/${ctx.media.episode.number}`;
+  let url = `https://2embed.wafflehacker.io/scrape?id=${ctx.media.imdbId}`;
+  if (ctx.media.type === 'show') url += `&s=${ctx.media.season.number}&e=${ctx.media.episode.number}`;
   const response = await ctx.fetcher(url);
   ctx.progress(100);
 
@@ -25,10 +25,10 @@ async function comboScraper(ctx: ShowScrapeContext | MovieScrapeContext): Promis
   throw new NotFoundError('No data found for this movie');
 }
 
-export const insertunitScraper = makeSourcerer({
-  id: 'insertunit',
-  name: 'Insertunit',
-  rank: 60,
+export const twoEmbedScraper = makeSourcerer({
+  id: '2embed',
+  name: '2Embed',
+  rank: 155,
   disabled: false,
   flags: [flags.CORS_ALLOWED],
   scrapeMovie: comboScraper,

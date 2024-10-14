@@ -9,11 +9,11 @@ const providers = [
   },
   {
     id: 'astra',
-    rank: 710,
+    rank: 700,
   },
   {
     id: 'orion',
-    rank: 730,
+    rank: 710,
   },
 ];
 

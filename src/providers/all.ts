@@ -61,7 +61,6 @@ import { ee3Scraper } from './sources/ee3';
 import { goojaraScraper } from './sources/goojara';
 import { hdRezkaScraper } from './sources/hdrezka';
 import { m4uScraper } from './sources/m4ufree';
-import { moviesApiScraper } from './sources/moviesapi';
 import { moviplusScraper } from './sources/moviplus';
 import { nepuScraper } from './sources/nepu';
 import { nitesScraper } from './sources/nites';
@@ -105,7 +104,6 @@ export function gatherAllSources(): Array<Sourcerer> {
     moviplusScraper,
     filmxyScraper,
     twoEmbedScraper,
-    moviesApiScraper,
   ];
 }
 

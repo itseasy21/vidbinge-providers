@@ -3,7 +3,7 @@ import { SourcererOutput, makeSourcerer } from '@/providers/base';
 import { MovieScrapeContext, ShowScrapeContext } from '@/utils/context';
 import { NotFoundError } from '@/utils/errors';
 
-export const baseUrl = 'https://fbox-anywhere-457e019579ad.herokuapp.com/https://api.whvx.net';
+export const baseUrl = 'https://api.whvx.net';
 
 export const headers = {
   Accept: '*/*',

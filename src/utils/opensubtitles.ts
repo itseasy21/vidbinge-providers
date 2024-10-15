@@ -56,7 +56,7 @@ export async function addOpenSubtitlesCaptions(
         id: url,
         opensubtitles: true,
         url,
-        type: caption.format || 'srt',
+        type: caption.SubFormat || 'srt',
         hasCorsRestrictions: false,
         language,
       });

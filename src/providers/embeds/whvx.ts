@@ -1,5 +1,5 @@
 import { EmbedOutput, makeEmbed } from '@/providers/base';
-import { baseUrl } from '@/providers/sources/whvx';
+import { baseUrl, headers } from '@/providers/sources/whvx';
 import { NotFoundError } from '@/utils/errors';
 
 const providers = [
@@ -16,15 +16,6 @@ const providers = [
     rank: 710,
   },
 ];
-
-export const headers = {
-  Accept: '*/*',
-  'Accept-Encoding': 'gzip, deflate, br, zstd',
-  'Accept-Language': 'en-US,en;q=0.9',
-  Origin: 'https://www.vidbinge.com',
-  'User-Agent':
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36',
-};
 
 function embed(provider: { id: string; rank: number }) {
   return makeEmbed({

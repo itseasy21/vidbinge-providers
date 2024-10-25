@@ -32,7 +32,7 @@ export async function addOpenSubtitlesCaptions(
       .map((x, i) => (i === 0 ? x : Number(x) || null));
     if (!imdbId) return captions;
     // Ensure imdbId is treated as a string and slice it properly
-    const apiUrl = `https://subs.wyzie.ru/search?id=${String(imdbId)}${
+    const apiUrl = `https://subs.whvx.net/search?id=${String(imdbId)}${
       season && episode ? `&season=${season}&episode=${episode}` : ''
     }`;
 
@@ -50,7 +50,7 @@ export async function addOpenSubtitlesCaptions(
     for (const caption of Res) {
       // Retain the original SubDownloadLink, just adjust encoding in the link
       const url = caption.url;
-      const language = labelToLanguageCode(caption.display);
+      const language = caption.language;
       if (!url || !language) continue;
       openSubtitlesCaptions.push({
         id: url,

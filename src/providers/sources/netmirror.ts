@@ -10,28 +10,29 @@ async function comboScraper(ctx: ShowScrapeContext | MovieScrapeContext): Promis
     ctx.progress(progress);
   }, 100);
 
-  let url = `https://filmxy.wafflehacker.io/search?id=${ctx.media.imdbId}`; // :)
-  if (ctx.media.type === 'show') url += `&s=${ctx.media.season.number}&e=${ctx.media.episode.number}`;
-
+  const urlEncodedTitle = encodeURIComponent(ctx.media.title);
+  const urlEncodedReleaseYear = encodeURIComponent(ctx.media.releaseYear);
+  let url = `https://ntflx.wafflehacker.io/scrape?title=${urlEncodedTitle}&type=${ctx.media.type}&releaseYear=${urlEncodedReleaseYear}`;
+  if (ctx.media.type === 'show') url += `&season=${ctx.media.season.number}&episode=${ctx.media.episode.number}`;
   const response = await ctx.fetcher(url);
   ctx.progress(100);
 
   if (response.statusCode === 404) {
-    throw new NotFoundError('Video Not Found');
+    throw new NotFoundError('Movie Not Found');
   }
 
   if (response) return response as SourcererOutput;
 
   clearInterval(interval);
-  throw new NotFoundError('No data found for this show/movie');
+  throw new NotFoundError('No data found for this movie');
 }
 
-export const filmxyScraper = makeSourcerer({
-  id: 'filmxy',
-  name: 'Filmxy',
-  rank: 111,
-  disabled: false,
+export const netMirrorScraper = makeSourcerer({
+  id: 'netmirror',
+  name: 'NTFLX',
+  rank: 130,
+  disabled: true,
   flags: [flags.CORS_ALLOWED],
-  scrapeShow: comboScraper,
   scrapeMovie: comboScraper,
+  scrapeShow: comboScraper,
 });

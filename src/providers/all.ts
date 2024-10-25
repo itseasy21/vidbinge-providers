@@ -24,6 +24,7 @@ import { remotestreamScraper } from '@/providers/sources/remotestream';
 import { showboxScraper } from '@/providers/sources/showbox/index';
 import { tugaflixScraper } from '@/providers/sources/tugaflix';
 import { vidsrcScraper } from '@/providers/sources/vidsrc/index';
+import { mirrorsScraper } from '@/providers/sources/whvxMirrors';
 import { zoechipScraper } from '@/providers/sources/zoechip';
 
 import {
@@ -54,6 +55,7 @@ import { voeScraper } from './embeds/voe';
 import { warezcdnembedHlsScraper } from './embeds/warezcdn/hls';
 import { warezcdnembedMp4Scraper } from './embeds/warezcdn/mp4';
 import { astraScraper, novaScraper, orionScraper } from './embeds/whvx';
+import { amznScraper, ntflxScraper } from './embeds/whvxMirrors';
 import { wootlyScraper } from './embeds/wootly';
 import { autoembedScraper } from './sources/autoembed';
 import { catflixScraper } from './sources/catflix';
@@ -63,6 +65,7 @@ import { hdRezkaScraper } from './sources/hdrezka';
 import { m4uScraper } from './sources/m4ufree';
 import { moviplusScraper } from './sources/moviplus';
 import { nepuScraper } from './sources/nepu';
+import { netMirrorScraper } from './sources/netmirror';
 import { nitesScraper } from './sources/nites';
 import { primewireScraper } from './sources/primewire';
 import { ridooMoviesScraper } from './sources/ridomovies';
@@ -104,6 +107,8 @@ export function gatherAllSources(): Array<Sourcerer> {
     moviplusScraper,
     filmxyScraper,
     twoEmbedScraper,
+    netMirrorScraper,
+    mirrorsScraper,
   ];
 }
 
@@ -153,5 +158,7 @@ export function gatherAllEmbeds(): Array<Embed> {
     vidkerScraper,
     streamwishScraper,
     doodScraper,
+    amznScraper,
+    ntflxScraper,
   ];
 }

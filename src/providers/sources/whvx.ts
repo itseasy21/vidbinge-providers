@@ -30,8 +30,11 @@ async function comboScraper(ctx: ShowScrapeContext | MovieScrapeContext): Promis
     query.episode = ctx.media.episode.number.toString();
   }
 
-  const res = await ctx.fetcher(`${baseUrl}/status`, {
-    headers,
+  const res = await ctx.proxiedFetcher(`${baseUrl}/status`, {
+    headers: {
+      ...headers,
+      Origin: 'https://www.vidbinge.com',
+    },
   });
 
   if (res.providers?.length === 0) {

@@ -1,5 +1,5 @@
 import { EmbedOutput, makeEmbed } from '@/providers/base';
-import { baseUrl } from '@/providers/sources/whvxMirrors';
+import { baseUrl, headers } from '@/providers/sources/whvxMirrors';
 import { NotFoundError } from '@/utils/errors';
 
 const providers = [
@@ -12,11 +12,6 @@ const providers = [
     rank: 610,
   },
 ];
-
-export const headers = {
-  Origin: 'https://www.vidbinge.com',
-  Referer: 'https://www.vidbinge.com',
-};
 
 function embed(provider: { id: string; rank: number }) {
   return makeEmbed({
@@ -39,7 +34,12 @@ function embed(provider: { id: string; rank: number }) {
         const urlEncodedReleaseYear = encodeURIComponent(query.releaseYear || '');
         let url = `${baseUrl}scrape?title=${urlEncodedTitle}&type=${query.type}&releaseYear=${urlEncodedReleaseYear}&provider=${provider.id}`;
         if (query.type === 'show') url += `&season=${query.season}&episode=${query.episode}`;
-        const result = await ctx.fetcher(url);
+        const result = await ctx.fetcher(url, {
+          headers: {
+            ...headers,
+            Origin: 'https://www.vidbinge.com',
+          },
+        });
         clearInterval(interval);
         ctx.progress(100);
 

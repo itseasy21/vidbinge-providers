@@ -2,7 +2,7 @@ import { flags } from '@/entrypoint/utils/targets';
 import { SourcererOutput, makeSourcerer } from '@/providers/base';
 import { MovieScrapeContext, ShowScrapeContext } from '@/utils/context';
 
-export const baseUrl = 'https://mirrors.whvx.net/';
+export const baseUrl = 'https://fbox-anywhere-457e019579ad.herokuapp.com/https://mirrors.whvx.net/';
 
 export const headers = {
   Origin: 'https://www.vidbinge.com',

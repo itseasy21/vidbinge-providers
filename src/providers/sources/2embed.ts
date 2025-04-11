@@ -15,6 +15,38 @@ async function comboScraper(ctx: ShowScrapeContext | MovieScrapeContext): Promis
   const response = await ctx.fetcher(url);
   ctx.progress(100);
 
+  // CHECKLIST ITEM 3-18: Process response.stream to extract nested URLs
+  if (response && Array.isArray(response.stream) && response.stream.length > 0) {
+    for (const item of response.stream) {
+      if (item && typeof item.playlist === 'string' && item.playlist) {
+        try {
+          const mainUrl = new URL(item.playlist);
+          const firstUrlParam = mainUrl.searchParams.get('url');
+          if (firstUrlParam) {
+            const firstDecodedUrl = decodeURIComponent(firstUrlParam);
+            // Look for &url= first, then ?url=
+            let urlParamKeyIndex = firstDecodedUrl.lastIndexOf('&url=');
+            if (urlParamKeyIndex === -1) {
+              urlParamKeyIndex = firstDecodedUrl.lastIndexOf('?url=');
+            }
+
+            if (urlParamKeyIndex !== -1) {
+              const secondUrlParam = firstDecodedUrl.substring(urlParamKeyIndex + 5); // Length of "&url=" or "?url="
+              const finalUrl = decodeURIComponent(secondUrlParam);
+              if (finalUrl.startsWith('http://') || finalUrl.startsWith('https://')) {
+                item.playlist = finalUrl;
+              }
+            }
+          }
+        } catch (error) {
+          // Silently ignore parsing errors, keep original playlist URL
+          console.error('Error parsing playlist URL in 2embed:', error); // Optional: log for debugging
+        }
+      }
+    }
+  }
+  // End of added code
+
   if (response.statusCode === 404) {
     throw new NotFoundError('Movie Not Found');
   }

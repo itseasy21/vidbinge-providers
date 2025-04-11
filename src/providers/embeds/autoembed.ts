@@ -3,23 +3,23 @@ import { makeEmbed } from '@/providers/base';
 
 const providers = [
   {
-    id: 'autoembed-english',
+    id: 'hindiscrape-english',
     rank: 10,
   },
   {
-    id: 'autoembed-hindi',
+    id: 'hindiscrape-hindi',
     rank: 9,
   },
   {
-    id: 'autoembed-tamil',
+    id: 'hindiscrape-tamil',
     rank: 8,
   },
   {
-    id: 'autoembed-telugu',
+    id: 'hindiscrape-telugu',
     rank: 7,
   },
   {
-    id: 'autoembed-bengali',
+    id: 'hindiscrape-bengali',
     rank: 6,
   },
 ];
@@ -46,9 +46,9 @@ function embed(provider: { id: string; rank: number }) {
 }
 
 export const [
-  autoembedEnglishScraper,
-  autoembedHindiScraper,
-  autoembedBengaliScraper,
-  autoembedTamilScraper,
-  autoembedTeluguScraper,
+  hidiscrapeEnglishScraper,
+  hidiscrapeHindiScraper,
+  hidiscrapeBengaliScraper,
+  hidiscrapeTamilScraper,
+  hidiscrapeTeluguScraper,
 ] = providers.map(embed);

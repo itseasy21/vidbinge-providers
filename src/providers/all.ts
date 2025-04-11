@@ -67,7 +67,6 @@ import { m4uScraper } from './sources/m4ufree';
 import { moviplusScraper } from './sources/moviplus';
 import { mp4hydraScraper } from './sources/mp4hydra';
 import { nepuScraper } from './sources/nepu';
-import { netMirrorScraper } from './sources/netmirror';
 import { nitesScraper } from './sources/nites';
 import { primewireScraper } from './sources/primewire';
 import { ridooMoviesScraper } from './sources/ridomovies';
@@ -109,7 +108,6 @@ export function gatherAllSources(): Array<Sourcerer> {
     moviplusScraper,
     filmxyScraper,
     twoEmbedScraper,
-    netMirrorScraper,
     mirrorsScraper,
     mp4hydraScraper,
   ];
